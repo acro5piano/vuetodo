@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ExampleTest extends TestCase
+class TaskTest extends TestCase
 {
 
     use DatabaseMigrations;
@@ -14,6 +15,9 @@ class ExampleTest extends TestCase
 
     public function testCrudTask()
     {
+        $user = factory(\App\User::class)->create();
+        $this->actingAs($user);
+
         $this->json('POST', '/api/tasks', ['name' => 'Learn Vue.js'])
              ->assertStatus(200)
              ->assertJson([
